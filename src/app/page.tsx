@@ -1,103 +1,218 @@
-import Image from "next/image";
+import Link from "next/link";
+import {
+  Calculator,
+  TrendingUp,
+  CheckCircle,
+  DollarSign,
+  Settings,
+} from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 py-16">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <DollarSign className="h-16 w-16 text-green-600" />
+          </div>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            Personal Finance Tools
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Make smarter financial decisions with our comprehensive suite of
+            calculators and planning tools
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Tools Grid */}
+        <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          {/* Compound Interest Calculator */}
+          <Link href="/compound-interest" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-gray-100">
+              <div className="flex justify-center mb-6">
+                <div className="bg-blue-100 rounded-full p-4">
+                  <Calculator className="h-8 w-8 text-blue-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
+                Compound Interest Calculator
+              </h3>
+              <p className="text-gray-600 text-center mb-6">
+                See how your money can grow over time with the power of compound
+                interest
+              </p>
+              <div className="text-center">
+                <span className="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+                  Calculate Growth
+                  <svg
+                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Retirement Simulator */}
+          <Link href="/retirement-simulator" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-gray-100">
+              <div className="flex justify-center mb-6">
+                <div className="bg-green-100 rounded-full p-4">
+                  <TrendingUp className="h-8 w-8 text-green-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
+                Retirement Simulator
+              </h3>
+              <p className="text-gray-600 text-center mb-6">
+                Plan for your future and see if you&apos;re on track for your
+                retirement goals
+              </p>
+              <div className="text-center">
+                <span className="inline-flex items-center text-green-600 font-medium group-hover:text-green-700">
+                  Plan Retirement
+                  <svg
+                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Risk Profile Quiz */}
+          <Link href="/risk-profile" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-gray-100">
+              <div className="flex justify-center mb-6">
+                <div className="bg-purple-100 rounded-full p-4">
+                  <CheckCircle className="h-8 w-8 text-purple-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
+                Risk Profile Quiz
+              </h3>
+              <p className="text-gray-600 text-center mb-6">
+                Discover your investment risk tolerance and get personalized
+                recommendations
+              </p>
+              <div className="text-center">
+                <span className="inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+                  Take Quiz
+                  <svg
+                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Settings */}
+          <Link href="/settings" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-gray-100">
+              <div className="flex justify-center mb-6">
+                <div className="bg-gray-100 rounded-full p-4">
+                  <Settings className="h-8 w-8 text-gray-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
+                Settings
+              </h3>
+              <p className="text-gray-600 text-center mb-6">
+                Customize interest rate presets and other app preferences
+              </p>
+              <div className="text-center">
+                <span className="inline-flex items-center text-gray-600 font-medium group-hover:text-gray-700">
+                  Configure App
+                  <svg
+                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Features */}
+        <div className="mt-20">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Why Use Our Tools?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="bg-blue-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
+                <Calculator className="h-6 w-6 text-blue-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Accurate Calculations
+              </h3>
+              <p className="text-gray-600">
+                Professional-grade financial calculations you can trust
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="bg-green-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
+                <TrendingUp className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Visual Insights
+              </h3>
+              <p className="text-gray-600">
+                Clear charts and graphs to understand your financial future
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="bg-purple-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
+                <CheckCircle className="h-6 w-6 text-purple-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Personalized Results
+              </h3>
+              <p className="text-gray-600">
+                Tailored recommendations based on your unique situation
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
