@@ -34,9 +34,12 @@ export default function GoalCard({ goal, onAddMoney }: GoalCardProps) {
   const [showAddMoney, setShowAddMoney] = useState(false);
   const [contributionAmount, setContributionAmount] = useState("");
 
-  const progressPercentage = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
+  const progressPercentage = Math.min(
+    (goal.currentAmount / goal.targetAmount) * 100,
+    100
+  );
   const remainingAmount = Math.max(goal.targetAmount - goal.currentAmount, 0);
-  
+
   const Icon = goal.category.icon;
 
   const handleAddMoney = (e: React.FormEvent) => {
@@ -72,7 +75,9 @@ export default function GoalCard({ goal, onAddMoney }: GoalCardProps) {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
-            <div className={`bg-${goal.category.color}-100 rounded-full p-2 mr-3`}>
+            <div
+              className={`bg-${goal.category.color}-100 rounded-full p-2 mr-3`}
+            >
               <Icon className={`h-5 w-5 text-${goal.category.color}-600`} />
             </div>
             <div>

@@ -148,7 +148,8 @@ export default function Home() {
                 Financial Goals
               </h3>
               <p className="text-gray-600 text-center mb-6">
-                Set, track, and achieve your financial milestones with smart progress tracking
+                Set, track, and achieve your financial milestones with smart
+                progress tracking
               </p>
               <div className="text-center">
                 <span className="inline-flex items-center text-orange-600 font-medium group-hover:text-orange-700">

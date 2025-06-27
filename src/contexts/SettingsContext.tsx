@@ -64,10 +64,15 @@ interface SettingsContextType {
   clearRiskProfile: () => void;
   getRecommendedRate: () => number;
   goals: Goal[];
-  addGoal: (goal: Omit<Goal, 'id' | 'createdDate' | 'contributions' | 'currentAmount'>) => void;
+  addGoal: (
+    goal: Omit<Goal, "id" | "createdDate" | "contributions" | "currentAmount">
+  ) => void;
   updateGoal: (id: string, updates: Partial<Goal>) => void;
   deleteGoal: (id: string) => void;
-  addContribution: (goalId: string, contribution: Omit<GoalContribution, 'id'>) => void;
+  addContribution: (
+    goalId: string,
+    contribution: Omit<GoalContribution, "id">
+  ) => void;
 }
 
 const defaultPresets: InterestRatePresets = {
@@ -118,10 +123,12 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
           const goalsWithDates = parsed.goals.map((goal: Goal) => ({
             ...goal,
             createdDate: new Date(goal.createdDate),
-            contributions: goal.contributions.map((contrib: GoalContribution) => ({
-              ...contrib,
-              date: new Date(contrib.date),
-            })),
+            contributions: goal.contributions.map(
+              (contrib: GoalContribution) => ({
+                ...contrib,
+                date: new Date(contrib.date),
+              })
+            ),
           }));
           setGoals(goalsWithDates);
         }
@@ -158,7 +165,12 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Goal management functions
-  const addGoal = (goalData: Omit<Goal, 'id' | 'createdDate' | 'contributions' | 'currentAmount'>) => {
+  const addGoal = (
+    goalData: Omit<
+      Goal,
+      "id" | "createdDate" | "contributions" | "currentAmount"
+    >
+  ) => {
     const newGoal: Goal = {
       ...goalData,
       id: Date.now().toString(),
@@ -172,55 +184,64 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
         "100": false,
       },
     };
-    setGoals(prev => [...prev, newGoal]);
+    setGoals((prev) => [...prev, newGoal]);
   };
 
   const updateGoal = (id: string, updates: Partial<Goal>) => {
-    setGoals(prev => prev.map(goal => 
-      goal.id === id ? { ...goal, ...updates } : goal
-    ));
+    setGoals((prev) =>
+      prev.map((goal) => (goal.id === id ? { ...goal, ...updates } : goal))
+    );
   };
 
   const deleteGoal = (id: string) => {
-    setGoals(prev => prev.filter(goal => goal.id !== id));
+    setGoals((prev) => prev.filter((goal) => goal.id !== id));
   };
 
-  const addContribution = (goalId: string, contributionData: Omit<GoalContribution, 'id'>) => {
+  const addContribution = (
+    goalId: string,
+    contributionData: Omit<GoalContribution, "id">
+  ) => {
     const contribution: GoalContribution = {
       ...contributionData,
       id: Date.now().toString(),
     };
 
-    setGoals(prev => prev.map(goal => {
-      if (goal.id === goalId) {
-        const newContributions = [...goal.contributions, contribution];
-        const newCurrentAmount = newContributions.reduce((sum, contrib) => sum + contrib.amount, 0);
-        const progressPercentage = (newCurrentAmount / goal.targetAmount) * 100;
-        
-        // Update milestones
-        const updatedMilestones = { ...goal.milestones };
-        if (progressPercentage >= 25 && !updatedMilestones?.["25"]) {
-          updatedMilestones["25"] = true;
+    setGoals((prev) =>
+      prev.map((goal) => {
+        if (goal.id === goalId) {
+          const newContributions = [...goal.contributions, contribution];
+          const newCurrentAmount = newContributions.reduce(
+            (sum, contrib) => sum + contrib.amount,
+            0
+          );
+          const progressPercentage =
+            (newCurrentAmount / goal.targetAmount) * 100;
+
+          // Update milestones
+          const updatedMilestones = { ...goal.milestones };
+          if (progressPercentage >= 25 && !updatedMilestones?.["25"]) {
+            updatedMilestones["25"] = true;
+          }
+          if (progressPercentage >= 50 && !updatedMilestones?.["50"]) {
+            updatedMilestones["50"] = true;
+          }
+          if (progressPercentage >= 75 && !updatedMilestones?.["75"]) {
+            updatedMilestones["75"] = true;
+          }
+          if (progressPercentage >= 100 && !updatedMilestones?.["100"]) {
+            updatedMilestones["100"] = true;
+          }
+
+          return {
+            ...goal,
+            contributions: newContributions,
+            currentAmount: newCurrentAmount,
+            milestones: updatedMilestones,
+          };
         }
-        if (progressPercentage >= 50 && !updatedMilestones?.["50"]) {
-          updatedMilestones["50"] = true;
-        }
-        if (progressPercentage >= 75 && !updatedMilestones?.["75"]) {
-          updatedMilestones["75"] = true;
-        }
-        if (progressPercentage >= 100 && !updatedMilestones?.["100"]) {
-          updatedMilestones["100"] = true;
-        }
-        
-        return {
-          ...goal,
-          contributions: newContributions,
-          currentAmount: newCurrentAmount,
-          milestones: updatedMilestones,
-        };
-      }
-      return goal;
-    }));
+        return goal;
+      })
+    );
   };
 
   // Get recommended interest rate based on risk profile

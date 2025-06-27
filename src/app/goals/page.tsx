@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Target, Plus, Home, Car, Plane, Shield, PiggyBank, DollarSign } from "lucide-react";
+import {
+  Target,
+  Plus,
+  Home,
+  Car,
+  Plane,
+  Shield,
+  PiggyBank,
+  DollarSign,
+} from "lucide-react";
 import { useSettings } from "../../contexts/SettingsContext";
 import GoalCard from "../../components/GoalCard";
 
@@ -34,8 +43,9 @@ export default function GoalsPage() {
                 Ready to achieve your financial dreams?
               </h2>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                Set your first goal and start tracking your progress. Whether it&apos;s building an emergency fund, 
-                saving for a home, or planning a vacation, we&apos;ll help you get there.
+                Set your first goal and start tracking your progress. Whether
+                it&apos;s building an emergency fund, saving for a home, or
+                planning a vacation, we&apos;ll help you get there.
               </p>
               <button
                 onClick={() => setShowCreateForm(true)}
@@ -44,29 +54,41 @@ export default function GoalsPage() {
                 <Plus className="h-5 w-5 mr-2" />
                 Create Your First Goal
               </button>
-              
+
               {/* Benefits */}
               <div className="grid md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
                 <div className="text-center">
                   <div className="bg-blue-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
                     <Target className="h-6 w-6 text-blue-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Stay Focused</h3>
-                  <p className="text-gray-600">Clear targets keep you motivated and on track</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    Stay Focused
+                  </h3>
+                  <p className="text-gray-600">
+                    Clear targets keep you motivated and on track
+                  </p>
                 </div>
                 <div className="text-center">
                   <div className="bg-green-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
                     <DollarSign className="h-6 w-6 text-green-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Track Progress</h3>
-                  <p className="text-gray-600">Visual progress bars show how close you are</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    Track Progress
+                  </h3>
+                  <p className="text-gray-600">
+                    Visual progress bars show how close you are
+                  </p>
                 </div>
                 <div className="text-center">
                   <div className="bg-purple-100 rounded-full p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
                     <Shield className="h-6 w-6 text-purple-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Build Security</h3>
-                  <p className="text-gray-600">Achieve financial milestones with confidence</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    Build Security
+                  </h3>
+                  <p className="text-gray-600">
+                    Achieve financial milestones with confidence
+                  </p>
                 </div>
               </div>
             </div>
@@ -74,7 +96,9 @@ export default function GoalsPage() {
             /* Goals Grid */
             <div>
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">Your Goals ({goals.length})</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Your Goals ({goals.length})
+                </h2>
                 <button
                   onClick={() => setShowCreateForm(true)}
                   className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center"
@@ -83,17 +107,17 @@ export default function GoalsPage() {
                   Add New Goal
                 </button>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {goals.map((goal) => (
-                  <GoalCard 
-                    key={goal.id} 
+                  <GoalCard
+                    key={goal.id}
                     goal={goal}
                     onAddMoney={(goalId, amount) => {
                       addContribution(goalId, {
                         amount,
                         date: new Date(),
-                        note: `Added via goal card`
+                        note: `Added via goal card`,
                       });
                     }}
                   />
@@ -105,7 +129,7 @@ export default function GoalsPage() {
 
         {/* Goal Creation Modal */}
         {showCreateForm && (
-          <GoalCreationModal 
+          <GoalCreationModal
             onClose={() => setShowCreateForm(false)}
             onSave={(goal) => {
               addGoal(goal);
@@ -139,23 +163,62 @@ function GoalCreationModal({ onClose, onSave }: GoalCreationModalProps) {
     name: "",
     targetAmount: "",
     targetDate: "",
-    category: "custom"
+    category: "custom",
   });
 
   const goalCategories = [
-    { id: "emergency", name: "Emergency Fund", icon: Shield, color: "red", description: "3-6 months of expenses" },
-    { id: "home", name: "Home Down Payment", icon: Home, color: "blue", description: "Save for your first home" },
-    { id: "car", name: "Car Purchase", icon: Car, color: "green", description: "Buy your dream car" },
-    { id: "vacation", name: "Vacation Fund", icon: Plane, color: "purple", description: "Plan your perfect getaway" },
-    { id: "investment", name: "Investment Milestone", icon: PiggyBank, color: "orange", description: "$10k, $100k portfolio" },
-    { id: "custom", name: "Custom Goal", icon: Target, color: "gray", description: "Create your own goal" }
+    {
+      id: "emergency",
+      name: "Emergency Fund",
+      icon: Shield,
+      color: "red",
+      description: "3-6 months of expenses",
+    },
+    {
+      id: "home",
+      name: "Home Down Payment",
+      icon: Home,
+      color: "blue",
+      description: "Save for your first home",
+    },
+    {
+      id: "car",
+      name: "Car Purchase",
+      icon: Car,
+      color: "green",
+      description: "Buy your dream car",
+    },
+    {
+      id: "vacation",
+      name: "Vacation Fund",
+      icon: Plane,
+      color: "purple",
+      description: "Plan your perfect getaway",
+    },
+    {
+      id: "investment",
+      name: "Investment Milestone",
+      icon: PiggyBank,
+      color: "orange",
+      description: "$10k, $100k portfolio",
+    },
+    {
+      id: "custom",
+      name: "Custom Goal",
+      icon: Target,
+      color: "gray",
+      description: "Create your own goal",
+    },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.targetAmount || !formData.targetDate) return;
-    
-    const selectedCategory = goalCategories.find(cat => cat.id === formData.category);
+    if (!formData.name || !formData.targetAmount || !formData.targetDate)
+      return;
+
+    const selectedCategory = goalCategories.find(
+      (cat) => cat.id === formData.category
+    );
     onSave({
       name: formData.name,
       targetAmount: parseFloat(formData.targetAmount),
@@ -191,18 +254,24 @@ function GoalCreationModal({ onClose, onSave }: GoalCreationModalProps) {
                   <button
                     key={category.id}
                     type="button"
-                    onClick={() => setFormData({ ...formData, category: category.id })}
+                    onClick={() =>
+                      setFormData({ ...formData, category: category.id })
+                    }
                     className={`p-4 rounded-lg border-2 text-left transition-all ${
-                      isSelected 
-                        ? 'border-orange-500 bg-orange-50' 
-                        : 'border-gray-200 hover:border-gray-300'
+                      isSelected
+                        ? "border-orange-500 bg-orange-50"
+                        : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <div className="flex items-center mb-2">
-                      <Icon className={`h-5 w-5 mr-2 text-${category.color}-600`} />
+                      <Icon
+                        className={`h-5 w-5 mr-2 text-${category.color}-600`}
+                      />
                       <span className="font-medium">{category.name}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{category.description}</p>
+                    <p className="text-sm text-gray-600">
+                      {category.description}
+                    </p>
                   </button>
                 );
               })}
@@ -217,7 +286,9 @@ function GoalCreationModal({ onClose, onSave }: GoalCreationModalProps) {
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               placeholder="e.g., Emergency Fund, Down Payment, Vacation to Japan"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               required
@@ -230,11 +301,15 @@ function GoalCreationModal({ onClose, onSave }: GoalCreationModalProps) {
               Target Amount
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                $
+              </span>
               <input
                 type="number"
                 value={formData.targetAmount}
-                onChange={(e) => setFormData({ ...formData, targetAmount: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, targetAmount: e.target.value })
+                }
                 placeholder="10000"
                 className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 required
@@ -252,10 +327,12 @@ function GoalCreationModal({ onClose, onSave }: GoalCreationModalProps) {
             <input
               type="date"
               value={formData.targetDate}
-              onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, targetDate: e.target.value })
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               required
-              min={new Date().toISOString().split('T')[0]}
+              min={new Date().toISOString().split("T")[0]}
             />
           </div>
 
