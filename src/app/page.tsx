@@ -5,6 +5,7 @@ import {
   CheckCircle,
   DollarSign,
   Settings,
+  Target,
 } from "lucide-react";
 
 export default function Home() {
@@ -26,7 +27,7 @@ export default function Home() {
         </div>
 
         {/* Tools Grid */}
-        <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-5 gap-8 max-w-7xl mx-auto">
           {/* Compound Interest Calculator */}
           <Link href="/compound-interest" className="group">
             <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-gray-100">
@@ -117,6 +118,41 @@ export default function Home() {
               <div className="text-center">
                 <span className="inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
                   Take Quiz
+                  <svg
+                    className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Goals */}
+          <Link href="/goals" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2 border border-gray-100">
+              <div className="flex justify-center mb-6">
+                <div className="bg-orange-100 rounded-full p-4">
+                  <Target className="h-8 w-8 text-orange-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4 text-center">
+                Financial Goals
+              </h3>
+              <p className="text-gray-600 text-center mb-6">
+                Set, track, and achieve your financial milestones with smart progress tracking
+              </p>
+              <div className="text-center">
+                <span className="inline-flex items-center text-orange-600 font-medium group-hover:text-orange-700">
+                  Manage Goals
                   <svg
                     className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
                     fill="none"

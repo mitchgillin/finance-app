@@ -61,6 +61,12 @@ export default function RootLayout({
                   Risk Profile
                 </Link>
                 <Link
+                  href="/goals"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Goals
+                </Link>
+                <Link
                   href="/settings"
                   className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
                 >
