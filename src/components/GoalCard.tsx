@@ -1,29 +1,6 @@
 import React, { useState } from "react";
 import { Plus, Calendar } from "lucide-react";
-
-export interface Goal {
-  id: string;
-  name: string;
-  targetAmount: number;
-  currentAmount: number;
-  targetDate: string;
-  category: {
-    id: string;
-    name: string;
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-    color: string;
-    description: string;
-  };
-  createdDate: Date;
-  contributions: Contribution[];
-}
-
-export interface Contribution {
-  id: string;
-  amount: number;
-  date: Date;
-  note?: string;
-}
+import { Goal, GoalContribution } from "../contexts/SettingsContext";
 
 interface GoalCardProps {
   goal: Goal;

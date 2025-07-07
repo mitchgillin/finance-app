@@ -70,10 +70,11 @@ const questions: Question[] = [
 ];
 
 export default function RiskProfileQuiz() {
-  const { updateRiskProfile } = useSettings();
+  const { riskProfile, updateRiskProfile } = useSettings();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: number }>({});
   const [isComplete, setIsComplete] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(!riskProfile);
 
   const handleAnswer = (score: number) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: score };
@@ -104,6 +105,14 @@ export default function RiskProfileQuiz() {
   };
 
   const resetQuiz = () => {
+    setCurrentQuestion(0);
+    setAnswers({});
+    setIsComplete(false);
+    setShowQuiz(true);
+  };
+
+  const startQuiz = () => {
+    setShowQuiz(true);
     setCurrentQuestion(0);
     setAnswers({});
     setIsComplete(false);
@@ -177,6 +186,11 @@ export default function RiskProfileQuiz() {
   };
 
   const profile = isComplete ? getRiskProfile() : null;
+  
+  // Helper function to get profile data for display
+  const getProfileDataForDisplay = (profileData: any) => {
+    return getRiskProfileFromAnswers(profileData?.answers || {});
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
@@ -202,7 +216,234 @@ export default function RiskProfileQuiz() {
           </p>
         </div>
 
-        {!isComplete ? (
+        {/* Show existing results if user has completed quiz before */}
+        {riskProfile && !showQuiz && !isComplete ? (
+          <div className="max-w-4xl mx-auto">
+            {/* Existing Results Header */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <div className="text-center mb-8">
+                <div
+                  className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-${getProfileDataForDisplay(riskProfile)?.color}-100 text-${getProfileDataForDisplay(riskProfile)?.color}-600 mb-4`}
+                >
+                  {getProfileDataForDisplay(riskProfile)?.icon}
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  Your Risk Profile: {riskProfile.profile}
+                </h2>
+                <p className="text-gray-600 text-lg">{getProfileDataForDisplay(riskProfile)?.description}</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Completed on {new Date(riskProfile.completedAt).toLocaleDateString()}
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <div className="text-center p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl font-bold text-gray-900">
+                    {riskProfile.expectedReturn}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Expected Annual Return
+                  </div>
+                </div>
+
+                <div className="text-center p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl font-bold text-gray-900">
+                    {riskProfile.risk}
+                  </div>
+                  <div className="text-sm text-gray-600">Risk Level</div>
+                </div>
+
+                <div className="text-center p-4 bg-gray-50 rounded-lg">
+                  <div className="text-2xl font-bold text-gray-900">
+                    {riskProfile.score}
+                  </div>
+                  <div className="text-sm text-gray-600">Risk Score</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recommended Allocation */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+                Recommended Portfolio Allocation
+              </h3>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="relative mb-4">
+                    <div className="w-32 h-32 mx-auto rounded-full border-8 border-blue-500 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-blue-600">
+                          {riskProfile.allocation.stocks}%
+                        </div>
+                        <div className="text-sm text-gray-600">Stocks</div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm">
+                    Growth-oriented investments including domestic and
+                    international equities
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <div className="relative mb-4">
+                    <div className="w-32 h-32 mx-auto rounded-full border-8 border-green-500 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-600">
+                          {riskProfile.allocation.bonds}%
+                        </div>
+                        <div className="text-sm text-gray-600">Bonds</div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm">
+                    Fixed-income securities for stability and regular income
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  <div className="relative mb-4">
+                    <div className="w-32 h-32 mx-auto rounded-full border-8 border-gray-500 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-600">
+                          {riskProfile.allocation.cash}%
+                        </div>
+                        <div className="text-sm text-gray-600">Cash</div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm">
+                    Liquid investments for emergencies and opportunities
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Investment Recommendations */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+                Investment Recommendations
+              </h3>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                    Suitable Investment Types
+                  </h4>
+                  <ul className="space-y-2">
+                    {riskProfile.profile === "Conservative" && (
+                      <>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          High-grade corporate bonds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Government securities
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Money market funds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Conservative balanced funds
+                        </li>
+                      </>
+                    )}
+                    {(riskProfile.profile === "Moderately Conservative" ||
+                      riskProfile.profile === "Moderate") && (
+                      <>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Balanced mutual funds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Blue-chip dividend stocks
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Bond index funds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Target-date funds
+                        </li>
+                      </>
+                    )}
+                    {(riskProfile.profile === "Moderately Aggressive" ||
+                      riskProfile.profile === "Aggressive") && (
+                      <>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Growth stock funds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          International equity funds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Small-cap funds
+                        </li>
+                        <li className="flex items-center text-gray-600">
+                          <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                          Technology sector ETFs
+                        </li>
+                      </>
+                    )}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                    Key Considerations
+                  </h4>
+                  <ul className="space-y-2 text-gray-600">
+                    <li className="flex items-start">
+                      <span className="text-purple-600 mr-2">•</span>
+                      Diversify across different asset classes and sectors
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-purple-600 mr-2">•</span>
+                      Review and rebalance your portfolio annually
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-purple-600 mr-2">•</span>
+                      Consider tax-advantaged accounts (401k, IRA, Roth IRA)
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-purple-600 mr-2">•</span>
+                      Maintain an emergency fund before investing
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-purple-600 mr-2">•</span>
+                      Don&apos;t try to time the market - invest consistently
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="text-center">
+              <button
+                onClick={startQuiz}
+                className="bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition-colors mr-4"
+              >
+                Retake Quiz
+              </button>
+              <Link
+                href="/compound-interest"
+                className="bg-gray-600 text-white px-8 py-3 rounded-lg hover:bg-gray-700 transition-colors inline-block"
+              >
+                Calculate Growth Potential
+              </Link>
+            </div>
+          </div>
+        ) : showQuiz && !isComplete ? (
           <div className="max-w-2xl mx-auto">
             {/* Progress Bar */}
             <div className="mb-8">
@@ -461,6 +702,12 @@ export default function RiskProfileQuiz() {
 
             {/* Action Buttons */}
             <div className="text-center">
+              <button
+                onClick={() => setShowQuiz(false)}
+                className="bg-gray-600 text-white px-8 py-3 rounded-lg hover:bg-gray-700 transition-colors mr-4"
+              >
+                View My Results
+              </button>
               <button
                 onClick={resetQuiz}
                 className="bg-purple-600 text-white px-8 py-3 rounded-lg hover:bg-purple-700 transition-colors mr-4"
