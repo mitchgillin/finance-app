@@ -163,17 +163,26 @@ export default function ComparisonChart({
   }) => d.totalValue;
 
   const formatCurrency = (value: number) => {
-    if (value >= 1000000) {
-      return `$${(value / 1000000).toFixed(1)}M`;
-    } else if (value >= 1000) {
-      return `$${(value / 1000).toFixed(0)}K`;
+    const absValue = Math.abs(value);
+    const sign = value < 0 ? '-' : '';
+    
+    if (absValue >= 1000000) {
+      return `${sign}$${(absValue / 1000000).toFixed(1)}M`;
+    } else if (absValue >= 1000) {
+      return `${sign}$${(absValue / 1000).toFixed(0)}K`;
     }
-    return `$${value.toFixed(0)}`;
+    return `${sign}$${absValue.toFixed(0)}`;
+  };
+
+  const formatCurrencyDetailed = (value: number) => {
+    const sign = value < 0 ? '-' : '';
+    const absValue = Math.abs(value);
+    return `${sign}$${new Intl.NumberFormat('en-US').format(absValue)}`;
   };
 
   return (
-    <div className="relative">
-      <svg width={width} height={height}>
+    <div className="relative w-full">
+      <svg width={width} height={height} className="max-w-full h-auto">
         <Group left={margin.left} top={margin.top}>
           {/* Grid */}
           <GridRows
@@ -317,11 +326,14 @@ export default function ComparisonChart({
         <h4 className="text-lg font-semibold text-gray-900 text-center">
           Scenario Comparison
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {scenarios.map((scenario, index) => {
             const finalValue = scenario.data[scenario.data.length - 1]?.totalValue || 0;
             const totalContributions = scenario.data[scenario.data.length - 1]?.totalContributions || 0;
             const totalInterest = finalValue - totalContributions;
+            const expectedReturn = scenario.settings.annualRate;
+            const isNegativeReturn = expectedReturn < 0;
+            const isNegativeInterest = totalInterest < 0;
             
             return (
               <div
@@ -329,8 +341,8 @@ export default function ComparisonChart({
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
                 style={{ borderLeftColor: scenario.color, borderLeftWidth: '4px' }}
               >
-                <div className="flex items-center space-x-3">
-                  <div className="flex flex-col items-center">
+                <div className="flex items-center space-x-3 min-w-0 flex-1">
+                  <div className="flex flex-col items-center flex-shrink-0">
                     <div
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: scenario.color }}
@@ -350,20 +362,27 @@ export default function ComparisonChart({
                       />
                     )}
                   </div>
-                  <div>
-                    <div className="font-medium text-gray-900 text-sm">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium text-gray-900 text-sm truncate">
                       {scenario.name}
                     </div>
                     <div className="text-xs text-gray-600">
-                      Final: {formatCurrency(finalValue)}
+                      Return: <span className={isNegativeReturn ? "text-red-600 font-medium" : "text-gray-600"}>
+                        {expectedReturn >= 0 ? '+' : ''}{expectedReturn.toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-600">
+                      Final: {formatCurrencyDetailed(finalValue)}
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm font-semibold text-green-600">
-                    +{formatCurrency(totalInterest)}
+                <div className="text-right flex-shrink-0">
+                  <div className={`text-sm font-semibold ${isNegativeInterest ? 'text-red-600' : 'text-green-600'}`}>
+                    {isNegativeInterest ? '' : '+'}{formatCurrency(totalInterest)}
                   </div>
-                  <div className="text-xs text-gray-500">interest</div>
+                  <div className="text-xs text-gray-500">
+                    {isNegativeInterest ? 'loss' : 'interest'}
+                  </div>
                 </div>
               </div>
             );

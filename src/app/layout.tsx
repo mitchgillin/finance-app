@@ -55,6 +55,12 @@ export default function RootLayout({
                   Retirement
                 </Link>
                 <Link
+                  href="/fee-calculator"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Fee Calculator
+                </Link>
+                <Link
                   href="/risk-profile"
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
@@ -112,6 +118,14 @@ export default function RootLayout({
                       className="hover:text-white transition-colors"
                     >
                       Retirement Simulator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/fee-calculator"
+                      className="hover:text-white transition-colors"
+                    >
+                      Fee Impact Calculator
                     </Link>
                   </li>
                   <li>
