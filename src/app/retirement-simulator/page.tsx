@@ -15,6 +15,8 @@ export default function RetirementSimulator() {
   const [monthlyContribution, setMonthlyContribution] = useState(1000);
   const [expectedReturn, setExpectedReturn] = useState(7);
   const [desiredRetirementIncome, setDesiredRetirementIncome] = useState(80000);
+  const [socialSecurityIncome, setSocialSecurityIncome] = useState(0);
+  const [pensionIncome, setPensionIncome] = useState(0);
   const [lifeExpectancy, setLifeExpectancy] = useState(85);
   const [inflationRate, setInflationRate] = useState(3);
 
@@ -49,13 +51,22 @@ export default function RetirementSimulator() {
     );
     const adjustedDesiredIncome = desiredRetirementIncome * inflationMultiplier;
 
-    // Calculate if savings will last through retirement
-    const totalNeeded = adjustedDesiredIncome * retirementYears;
+    // Calculate total annual income from social security and pension
+    const totalAnnualExternalIncome = socialSecurityIncome + pensionIncome;
+    const adjustedExternalIncome = totalAnnualExternalIncome * inflationMultiplier;
+
+    // Calculate the gap that needs to be filled by savings
+    const incomeGapPerYear = Math.max(0, adjustedDesiredIncome - adjustedExternalIncome);
+    const totalNeeded = incomeGapPerYear * retirementYears;
     const shortfall = totalNeeded - totalAtRetirement;
 
     // Calculate sustainable withdrawal rate (4% rule)
     const sustainableAnnualWithdrawal = totalAtRetirement * 0.04;
     const sustainableMonthlyWithdrawal = sustainableAnnualWithdrawal / 12;
+    
+    // Calculate total projected income including external sources
+    const totalProjectedAnnualIncome = sustainableAnnualWithdrawal + adjustedExternalIncome;
+    const totalProjectedMonthlyIncome = totalProjectedAnnualIncome / 12;
 
     return {
       totalAtRetirement,
@@ -64,6 +75,10 @@ export default function RetirementSimulator() {
       shortfall,
       sustainableAnnualWithdrawal,
       sustainableMonthlyWithdrawal,
+      totalProjectedAnnualIncome,
+      totalProjectedMonthlyIncome,
+      adjustedExternalIncome,
+      incomeGapPerYear,
       yearsToRetirement,
       retirementYears,
       totalContributions: currentSavings + monthlyContribution * totalMonths,
@@ -168,6 +183,36 @@ export default function RetirementSimulator() {
                 className="focus:ring-2 focus:ring-green-500 focus:border-green-500"
               />
             </div>
+
+            {/* Social Security & Pension Income */}
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Retirement Income Sources
+              </h3>
+              <div className="space-y-4">
+                <NumericInput
+                  label="Expected Annual Social Security"
+                  value={socialSecurityIncome}
+                  onChange={setSocialSecurityIncome}
+                  min={0}
+                  step={1000}
+                  prefix="$"
+                  defaultValue={0}
+                  className="focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                />
+
+                <NumericInput
+                  label="Expected Annual Pension"
+                  value={pensionIncome}
+                  onChange={setPensionIncome}
+                  min={0}
+                  step={1000}
+                  prefix="$"
+                  defaultValue={0}
+                  className="focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Financial Information */}
@@ -249,13 +294,39 @@ export default function RetirementSimulator() {
 
               <div className="p-4 bg-blue-50 rounded-lg">
                 <div className="text-sm text-gray-600 mb-1">
-                  Sustainable Annual Income
+                  Income from Savings
                 </div>
                 <div className="text-lg font-semibold text-blue-600">
                   {formatCurrency(results.sustainableAnnualWithdrawal)}
                 </div>
                 <div className="text-xs text-gray-500">
                   Based on 4% withdrawal rule
+                </div>
+              </div>
+
+              {results.adjustedExternalIncome > 0 && (
+                <div className="p-4 bg-purple-50 rounded-lg">
+                  <div className="text-sm text-gray-600 mb-1">
+                    Social Security & Pension
+                  </div>
+                  <div className="text-lg font-semibold text-purple-600">
+                    {formatCurrency(results.adjustedExternalIncome)}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Inflation-adjusted
+                  </div>
+                </div>
+              )}
+
+              <div className="p-4 bg-indigo-50 rounded-lg">
+                <div className="text-sm text-gray-600 mb-1">
+                  Total Projected Annual Income
+                </div>
+                <div className="text-lg font-semibold text-indigo-600">
+                  {formatCurrency(results.totalProjectedAnnualIncome)}
+                </div>
+                <div className="text-xs text-gray-500">
+                  All income sources combined
                 </div>
               </div>
 
@@ -319,10 +390,10 @@ export default function RetirementSimulator() {
 
             <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-2xl font-bold text-gray-900">
-                {formatCurrency(results.sustainableMonthlyWithdrawal)}
+                {formatCurrency(results.totalProjectedMonthlyIncome)}
               </div>
               <div className="text-sm text-gray-600">
-                Monthly Income Available
+                Total Monthly Income Available
               </div>
             </div>
           </div>

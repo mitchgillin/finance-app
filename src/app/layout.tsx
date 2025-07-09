@@ -73,6 +73,12 @@ export default function RootLayout({
                   Goals
                 </Link>
                 <Link
+                  href="/fund-comparison"
+                  className="text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Fund Comparison
+                </Link>
+                <Link
                   href="/settings"
                   className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
                 >
@@ -134,6 +140,14 @@ export default function RootLayout({
                       className="hover:text-white transition-colors"
                     >
                       Risk Profile Quiz
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/fund-comparison"
+                      className="hover:text-white transition-colors"
+                    >
+                      Fund Comparison
                     </Link>
                   </li>
                   <li>
