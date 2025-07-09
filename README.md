@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finance Calculator App
 
-## Getting Started
+A comprehensive financial calculator application built with Next.js 15, featuring compound interest calculations, retirement planning, risk profiling, and investment simulations.
 
-First, run the development server:
+## ⚠️ Disclaimer
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**This is not a professional financial tool and is very much a work in progress.** This application is for educational and experimental purposes only. Do not use this for actual financial planning or investment decisions. Always consult with qualified financial advisors for real financial guidance.
+
+## Features
+
+- **Compound Interest Calculator** - Calculate growth of investments over time
+- **Retirement Simulator** - Plan for retirement with various scenarios
+- **Risk Profile Quiz** - Assess your investment risk tolerance
+- **Investment Fee Calculator** - Calculate impact of fees on returns
+- **Customizable Settings** - Adjust interest rate presets and preferences
+
+## Quick Setup
+
+### Prerequisites
+
+- Node.js 18+ installed
+- Yarn package manager
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd finance
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   yarn install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   yarn dev
+   ```
+
+4. **Open your browser**
+
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+
+## Available Scripts
+
+- `yarn dev` - Start development server with Turbopack
+- `yarn build` - Build for production
+- `yarn start` - Start production server
+- `yarn lint` - Run ESLint
+
+## Tech Stack
+
+- **Next.js 15** with App Router
+- **React 19**
+- **TypeScript 5**
+- **Tailwind CSS 4**
+- **Visx** for data visualization
+- **Lucide React** for icons
+
+## Project Structure
+
+```
+src/
+├── app/              # Next.js App Router
+├── components/       # Reusable UI
+├── contexts/         # React Context
+└── utils/             # Utility functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development Notes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Uses App Router with pages in `src/app/`
+- Global settings stored in localStorage via Settings Context
+- Custom components like NumericInput support shorthand notation (2.5k, 15M, 1B)
+- TypeScript interfaces for all component props
+- Consistent styling with Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
+This is a personal project and contributions may or may not be accepted.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the GNU GPLv3 License which can be found here: https://www.gnu.org/licenses/gpl-3.0.en.html
